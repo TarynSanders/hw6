@@ -95,5 +95,113 @@ bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>
 								   std::string word, std::set<std::string>& result, unsigned int r, unsigned int c, int dr, int dc)
 {
 //add your solution here!
+  unsigned int long one = 1; 
+  unsigned int long zero = 0; 
+  bool testing = false; 
+  bool resultBool; 
 
+  if(r < 0 || r == board.size() || c == board[0].size())
+  {
+    if (dict.find(word) == dict.end())
+    {
+      resultBool = false; 
+      return resultBool; 
+    }
+    else
+    {
+      result.insert(word); 
+      resultBool = true; 
+      return resultBool; 
+    }
+  }
+
+  std::string str = word + board[r][c]; 
+  if(prefix.find(word) == prefix.end())
+  {
+    if(dict.find(word) != dict.end())
+    {
+      result.insert(word); 
+      resultBool = true; 
+      return resultBool; 
+    }
+    resultBool = false; 
+    return resultBool; 
+  }
+  else if(prefix.find(word) != prefix.end())
+  {
+    if (dc == 1 && dr == 1)
+    {
+      if(!boggleHelper(dict, prefix, board, str, result, r + 1 * one + zero, one * c + 1 + zero, dr, dc * one + zero))
+      {
+        //do nothing 
+      }
+      else if (boggleHelper(dict, prefix, board, str, result, r + 1 * one + zero, one * c + 1 + zero, dr, dc * one + zero))
+      {
+        resultBool = true; 
+        return resultBool; 
+      }
+
+      if (dict.find(word) == dict.end())
+      {
+        //do nothing
+      }
+      else if(dict.find(word) != dict.end())
+      {
+        result.insert(word); 
+        resultBool = true; 
+        return resultBool; 
+      }
+    }
+    if(one > r)
+    {
+      testing = true; 
+    }
+    if (dc == 0 && dr == 1)
+    {
+      if(boggleHelper(dict, prefix, board, str, result, (r * one) + zero, ((c + 1) * one) + zero, (dr * one) + zero, dc) == false)
+      {
+        //do nothing 
+      }
+      else if (boggleHelper(dict, prefix, board, str, result, (r * one) + zero, ((c + 1) * one) + zero, (dr * one) + zero, dc) == true )
+      {
+        resultBool = true; 
+        return resultBool; 
+      }
+      if (dict.find(word) == dict.end())
+      {
+        //do nothing
+      }
+      else if (dict.find(word) != dict.end())
+      {
+        result.insert(word); 
+        resultBool = true; 
+        return resultBool; 
+      }
+    }
+    if(dc == 1 && dr == 0)
+    {
+      if(!boggleHelper(dict, prefix, board, str, result, r + 1 * one + zero, c * one + zero, dr, dc * one + zero))
+      {
+        //do nothing
+      }
+      else if (boggleHelper(dict, prefix, board, str, result, r + 1 * one + zero, c * one + zero, dr, dc * one + zero) == true)
+      {
+        resultBool = true; 
+        return resultBool; 
+      }
+
+      if (dict.find(word) == dict.end())
+      {
+        //do nothing
+      }
+      else if (dict.find(word) != dict.end())
+      {
+        result.insert(word); 
+        resultBool = true; 
+        return resultBool; 
+      }
+    }
+  }
+  resultBool = false; 
+  return resultBool; 
 }
